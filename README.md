@@ -1,39 +1,75 @@
-# Advanced SmartVote Navigator AI (Web App Edition)
+# SmartVote Navigator AI (Production Cloud Edition)
 
 ### 1. Project Name
-**SmartVote Navigator AI** (Powered by Gemini & FastAPI)
+**SmartVote Navigator AI**
 
 ### 2. Problem Statement
-The election process can be overwhelming. This project solves that by providing an incredibly intuitive, context-aware web application that breaks down the election process step-by-step. 
+Many potential voters abandon the process due to confusion over registration dates, eligibility, and polling locations. 
 
 ### 3. Solution Approach
-Moving away from a basic CLI, SmartVote Navigator AI is now an advanced full-stack application. It uses a **FastAPI** WebSocket server to stream real-time responses from a strictly-constrained neutral **Google Gemini AI** instance, presented via a beautiful, responsive **Vanilla Glassmorphism UI**.
+SmartVote Navigator solves this globally through a hyper-scalable, Google Cloud-powered intelligence API. The system utilizes structured logic combined with external mocked API resolution (Google Maps, Calendar) seamlessly delivered via a FastAPI Cloud Run environment.
 
-### 4. Features
-*   **Stunning Glassmorphism UI:** Premium animated interface ensuring high user engagement.
-*   **Voice Integration:** Real-time Speech-to-Text and Text-to-Speech using the browser's native Web Speech API.
-*   **Visual Progress Tracking:** A dynamic timeline sidebar that updates visually as you progress through your voting "journey".
-*   **Multilingual Support & Advanced Intent:** Powered by Gemini, the AI can naturally converse in any language and understands complex semantic nuances while strictly prohibiting political bias.
-*   **Secure BYOK (Bring Your Own Key):** Users configure their Gemini API key directly in their browser's local storage via a secure Settings Modal.
+### 4. Architecture Diagram
+```ascii
+     [User / Client UI]
+             | (REST)
+             v
++-----------------------------+
+|        Cloud Run            |
+| +-------------------------+ |
+| |       FastAPI           | |
+| | /routes/chat            | |
+| | /routes/locations       | |
+| | /routes/reminder        | |
+| +-------------------------+ |
++------------+----------------+
+             |
+ +-----------+-----------+
+ |           |           |
+ v           v           v
+[Firestore] [Maps API] [Calendar API]
+(Sessions)  (Location)   (Mocked)
+```
 
-### 5. Tech Stack
-*   **Backend:** Python, FastAPI, Uvicorn, Google GenAI SDK.
-*   **Frontend:** Vanilla JS, HTML, CSS (Zero bloated libraries).
+### 5. Services Used
+- **Google Cloud Run:** Fast, scalable execution of the containerized core backend.
+- **Google Firebase (Firestore):** Retains deep conversation history enabling resilient sessions.
+- **Google Maps API:** Simulated coordinate retrieval and map routing URLs.
+- **Google Calendar API:** Generates structured `.ics` metadata and link integration.
 
-### 6. Installation & Running
+### 6. API Endpoints
+- **`POST /chat`**: The decision engine. Pass in `{"session_id": "abc", "message": "hello"}` to get an action-triggered response.
+- **`GET /locations?zip_code=10001`**: Retrieve coordinate distance details and a mapped URL.
+- **`POST /reminder`**: Receive an active Calendar hook for Election Day.
 
-1. Install requirements:
+### 7. Deployment Guide
+Deploy your system into production using standard GCP hooks.
+Ensure you have the `gcloud` CLI installed.
+
+**1. Create a `firebase.json` or obtain credentials:**
+Acquire your Firebase service account JSON and set it locally:
+```bash
+export FIREBASE_CREDENTIALS_PATH="/path/to/key.json"
+```
+
+**2. Submit to Cloud Build:**
+```bash
+gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/smartvote-navigator
+```
+
+**3. Deploy to Cloud Run:**
+```bash
+gcloud run deploy smartvote-navigator \
+    --image gcr.io/YOUR_PROJECT_ID/smartvote-navigator \
+    --platform managed \
+    --region us-central1 \
+    --allow-unauthenticated \
+    --set-env-vars=MOCK_FIREBASE=False
+```
+
+### 8. Testing Guarantee
+The backend incorporates strict rules assuring no political bias, underage gating, and rigorous Pydantic typing. Try it yourself locally:
 ```bash
 pip install -r requirements.txt
+pytest -v tests/
 ```
-
-2. Run the FastAPI Server:
-```bash
-python -m uvicorn backend.main:app --reload
-```
-
-3. Open your browser and navigate to `http://localhost:8000`. You will be prompted to enter your Gemini API key to begin.
-
-### 7. Assumptions & Future Improvements
-*   **Assumptions:** The user has a modern browser capable of utilizing the Web Speech API and WebSocket connections.
-*   **Future Improvements:** Persist user journeys across sessions using a database, and implement direct OAuth integration.
