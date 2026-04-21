@@ -7,20 +7,22 @@ class GoogleMapsService:
         Mock implementation of Google Civic / Maps API for finding polling locations.
         In production, this would call the Google Civic Information API.
         """
-        # Mocking the response
+        # Mocking the response with specific overrides for requested regions
         if zip_code == "713101":
-            encoded_query = urllib.parse.quote("polling stations near Burdwan, West Bengal")
-            address_string = "Burdwan, West Bengal (PIN: 713101)"
+            encoded_query = urllib.parse.quote("polling stations in Burdwan, West Bengal")
+            address_string = "Burdwan Town Hall Polling Center, Burdwan, West Bengal (713101)"
+            dist = 0.8
         else:
             encoded_query = urllib.parse.quote(f"polling stations near {zip_code}")
-            address_string = f"123 Civic Center Drive, {zip_code}"
+            address_string = f"Community Center Polling Station, {zip_code}"
+            dist = 1.2
 
         maps_url = f"https://www.google.com/maps/search/{encoded_query}"
         
         return LocationResponse(
             address=address_string,
             maps_url=maps_url,
-            distance_miles=1.2
+            distance_miles=dist
         )
 
 maps_service = GoogleMapsService()
