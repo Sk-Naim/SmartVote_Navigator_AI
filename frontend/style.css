@@ -387,25 +387,116 @@ body {
     background: var(--primary-hover);
 }
 
-/* Responsive */
+/* Responsive Overhaul for Mobile Comfort */
 @media (max-width: 768px) {
+    body {
+        align-items: flex-start;
+        height: 100vh;
+        overflow: hidden;
+    }
+
     .app-container {
         flex-direction: column;
-        height: 100vh;
         width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        gap: 0;
         border-radius: 0;
     }
+
+    .glass-panel {
+        border-radius: 0;
+        border: none;
+        backdrop-filter: blur(20px);
+    }
+
     .sidebar {
         width: 100%;
-        padding: 15px;
-        flex-direction: row;
-        overflow-x: auto;
-        gap: 10px;
+        height: auto;
+        padding: 10px 15px;
+        order: 1;
+        border-bottom: 1px solid var(--glass-border);
+        flex-shrink: 0;
     }
+
+    .brand {
+        margin-bottom: 10px;
+        justify-content: center;
+    }
+
+    .brand i { font-size: 1.2rem; }
+    .brand h1 { font-size: 1.1rem; }
+
+    .sidebar h3 { display: none; }
+
     .timeline {
         flex-direction: row;
-        align-items: center;
+        overflow-x: auto;
+        padding: 5px 0;
+        gap: 15px;
+        scrollbar-width: none; /* Hide scrollbar Firefox */
+        -ms-overflow-style: none; /* Hide scrollbar IE */
     }
+
+    .timeline::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
+
     .timeline::before { display: none; }
-    .timeline li .details { display: none; }
+
+    .timeline li {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        flex-shrink: 0;
+    }
+
+    .timeline li.active { transform: scale(1.1); }
+
+    .timeline li .icon {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+    }
+
+    .timeline .details { display: none; }
+
+    .chat-container {
+        order: 2;
+        flex: 1;
+        height: auto;
+        max-height: calc(100vh - 100px); /* Adjust based on header/input height */
+    }
+
+    .chat-header {
+        padding: 10px 15px;
+    }
+
+    .chat-header h2 { font-size: 1rem; }
+
+    .chat-messages {
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .message { max-width: 90%; }
+
+    .bubble {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+
+    .chat-input-area {
+        padding: 10px 15px 20px; /* Extra bottom padding for home indicators */
+        gap: 10px;
+        background: var(--glass-bg);
+    }
+
+    .input-wrapper input {
+        padding: 8px 0;
+        font-size: 0.9rem;
+    }
+
+    .primary-btn, .avatar {
+        width: 40px;
+        height: 40px;
+    }
 }

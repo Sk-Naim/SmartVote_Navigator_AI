@@ -39,13 +39,20 @@ async function handleAction(action, actionData) {
     if (action === "trigger_maps" && actionData?.zip_code) {
         try {
             const res = await fetch(`/locations?zip_code=${actionData.zip_code}`);
+            if (!res.ok) throw new Error("Location not found");
             const data = await res.json();
             return `<div class="integration-card">
                 <i class="fa-solid fa-map-pin"></i> 
                 <strong>Found:</strong> ${data.address}<br>
                 <a href="${data.maps_url}" target="_blank">Open in Google Maps ➔</a>
             </div>`;
-        } catch(e) { console.error(e); }
+        } catch(e) { 
+            console.error(e); 
+            return `<div class="integration-card error">
+                <i class="fa-solid fa-triangle-exclamation"></i> 
+                <strong>Oops!</strong> Could not find polling data for this PIN/ZIP.
+            </div>`;
+        }
     }
     
     if (action === "trigger_calendar") {
@@ -55,13 +62,20 @@ async function handleAction(action, actionData) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({})
             });
+            if (!res.ok) throw new Error("Calendar fail");
             const data = await res.json();
             return `<div class="integration-card">
                 <i class="fa-solid fa-calendar-plus"></i> 
                 <strong>Election Day Setup!</strong><br>
                 <a href="${data.calendar_link}" target="_blank">Add to Google Calendar ➔</a>
             </div>`;
-        } catch(e) { console.error(e); }
+        } catch(e) { 
+            console.error(e); 
+            return `<div class="integration-card error">
+                <i class="fa-solid fa-triangle-exclamation"></i> 
+                <strong>Error:</strong> Could not generate calendar link.
+            </div>`;
+        }
     }
     return '';
 }

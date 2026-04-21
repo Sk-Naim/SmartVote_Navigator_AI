@@ -11,6 +11,18 @@ class DecisionEngine:
         """
         query_lower = query.lower()
 
+        # 0. High Priority: Standalone PIN/ZIP Detection
+        # If the user just types a 5 or 6 digit code, automatically trigger map.
+        pin_only_match = re.fullmatch(r"(\s*)\d{5,6}(\s*)", query)
+        if pin_only_match:
+            zip_code = query.strip()
+            return ChatResponse(
+                session_id=session_id,
+                reply=f"I've detected the PIN/ZIP code {zip_code}. Searching for your nearest polling booth...",
+                triggered_action="trigger_maps",
+                action_data={"zip_code": zip_code}
+            )
+
         # 1. Underage Check
         if re.search(r"\b(1[0-7]|under 18|too young|minor|child)\b", query_lower):
             return ChatResponse(
