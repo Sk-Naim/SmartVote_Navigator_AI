@@ -13,6 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy local code to the container image.
 COPY src/ /app/src/
+COPY frontend/ /app/frontend/
 
 # Use uvicorn with a single worker suitable for Cloud Run scaling
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8080"]
