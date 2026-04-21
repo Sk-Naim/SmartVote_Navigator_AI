@@ -17,6 +17,11 @@ def test_location_query():
     assert res.triggered_action == "trigger_maps"
     assert res.action_data["zip_code"] == "90210"
 
+def test_indian_pin_query():
+    res = decision_engine.process_query("user1", "Where do I vote? 713101")
+    assert res.triggered_action == "trigger_maps"
+    assert res.action_data["zip_code"] == "713101"
+
 def test_reminder_request():
     res = decision_engine.process_query("user1", "remind me to vote")
     assert res.triggered_action == "trigger_calendar"
@@ -28,6 +33,10 @@ def test_safety_neutrality():
 def test_confused_user():
     res = decision_engine.process_query("user1", "im confused help")
     assert res.triggered_action == "help_menu"
+
+def test_voting_method():
+    res = decision_engine.process_query("user1", "what voting method should i use?")
+    assert res.triggered_action == "voting_method"
 
 def test_new_voter_start():
     res = decision_engine.process_query("user1", "hi new voter here")

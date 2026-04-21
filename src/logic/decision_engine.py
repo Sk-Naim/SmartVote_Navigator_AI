@@ -36,9 +36,9 @@ class DecisionEngine:
             )
 
         # 4. Location Query
-        if re.search(r"where (do|can) i vote|polling|location|station", query_lower):
-            # Extract possible zip code using regex
-            zip_match = re.search(r"\b\d{5}\b", query)
+        if re.search(r"where (do|can) i vote|polling|location|station|pin code", query_lower):
+            # Extract possible zip/pin code using regex (5 or 6 digits for US/India)
+            zip_match = re.search(r"\b\d{5,6}\b", query)
             extracted_zip = zip_match.group(0) if zip_match else "00000"
             return ChatResponse(
                 session_id=session_id,
@@ -69,6 +69,14 @@ class DecisionEngine:
                 session_id=session_id,
                 reply="It's perfectly normal to be overwhelmed! Let's simplify: 1. Ensure you are eligible. 2. Register to vote. 3. Find your polling location. Where should we start?",
                 triggered_action="help_menu"
+            )
+
+        # 7.5. Voting Method (Mail-in vs In-Person)
+        if re.search(r"voting method|mail(-| )in|absentee|in(-| )person", query_lower):
+            return ChatResponse(
+                session_id=session_id,
+                reply="You typically have two main voting methods: In-person at a local polling station, or via Mail-in/Absentee ballot. Mail-in requires requesting a ballot in advance. Which do you prefer?",
+                triggered_action="voting_method"
             )
 
         # 8. New Voter / Generic Start

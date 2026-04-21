@@ -8,11 +8,17 @@ class GoogleMapsService:
         In production, this would call the Google Civic Information API.
         """
         # Mocking the response
-        encoded_query = urllib.parse.quote(f"polling stations near {zip_code}")
+        if zip_code == "713101":
+            encoded_query = urllib.parse.quote("polling stations near Burdwan, West Bengal")
+            address_string = "Burdwan, West Bengal (PIN: 713101)"
+        else:
+            encoded_query = urllib.parse.quote(f"polling stations near {zip_code}")
+            address_string = f"123 Civic Center Drive, {zip_code}"
+
         maps_url = f"https://www.google.com/maps/search/{encoded_query}"
         
         return LocationResponse(
-            address=f"123 Civic Center Drive, {zip_code}",
+            address=address_string,
             maps_url=maps_url,
             distance_miles=1.2
         )

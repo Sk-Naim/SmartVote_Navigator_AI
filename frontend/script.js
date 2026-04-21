@@ -3,9 +3,23 @@ const userInput = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
 const recordBtn = document.getElementById('recordBtn');
 const toggleSpeechBtn = document.getElementById('toggleSpeechBtn');
+const themeToggleBtn = document.getElementById('themeToggleBtn');
 
 let synthesisEnabled = false;
 let sessionId = "session_" + Math.random().toString(36).substring(7);
+
+// Initialize Theme
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-mode");
+    themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+}
+
+themeToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle("dark-mode");
+    const isDark = document.body.classList.contains("dark-mode");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    themeToggleBtn.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+});
 
 function appendMessage(text, className, additionalHtml = '') {
     const msgDiv = document.createElement('div');

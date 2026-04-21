@@ -26,6 +26,14 @@ def test_location_endpoint():
     assert "maps_url" in data
     assert data["distance_miles"] > 0
 
+def test_indian_location_endpoint():
+    response = client.get("/locations?zip_code=713101")
+    assert response.status_code == 200
+    data = response.json()
+    assert "Burdwan" in data["address"]
+    assert "maps_url" in data
+    assert "Burdwan" in data["maps_url"]
+
 def test_reminder_endpoint():
     response = client.post("/reminder", json={})
     assert response.status_code == 200
