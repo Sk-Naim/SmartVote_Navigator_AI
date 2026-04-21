@@ -13,9 +13,9 @@ class GoogleMapsService:
             address_string = "Burdwan Town Hall Polling Center, Burdwan, West Bengal (713101)"
             dist = 0.8
         else:
-            encoded_query = urllib.parse.quote(f"polling stations near {zip_code}")
-            address_string = f"Community Center Polling Station, {zip_code}"
-            dist = 1.2
+            encoded_query = urllib.parse.quote(f"main polling station for PIN {zip_code}")
+            address_string = f"Regional Election Center, Sector A, PIN: {zip_code}"
+            dist = 1.5
 
         maps_url = f"https://www.google.com/maps/search/{encoded_query}"
         

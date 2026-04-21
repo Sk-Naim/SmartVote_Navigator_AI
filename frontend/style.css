@@ -485,18 +485,33 @@ body {
     }
 
     .chat-input-area {
-        padding: 10px 15px 20px; /* Extra bottom padding for home indicators */
+        padding: 5px 10px 15px; /* Better compact padding for mobile */
         gap: 10px;
         background: var(--glass-bg);
+        position: relative;
+        z-index: 100; /* Ensure visible over keyboards where possible */
     }
 
     .input-wrapper input {
-        padding: 8px 0;
-        font-size: 0.9rem;
+        padding: 6px 0;
+        font-size: 0.85rem;
     }
 
     .primary-btn, .avatar {
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
     }
+}
+
+/* Minimalist Developer Signature */
+.dev-signature {
+    position: fixed;
+    bottom: 5px;
+    right: 15px;
+    font-size: 0.7rem;
+    font-style: italic;
+    color: var(--text-muted);
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 1000;
 }

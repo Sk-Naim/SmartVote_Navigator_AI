@@ -31,6 +31,14 @@ class DecisionEngine:
                 triggered_action="underage_info"
             )
 
+        # 1.5. Adult Eligibility Check
+        if re.search(r"\b(1[8-9]|[2-9][0-9]|10[0-9]|above 18|over 18|adult|eligible age)\b", query_lower):
+            return ChatResponse(
+                session_id=session_id,
+                reply="Excellent! Since you are 18 or older, you are eligible to vote. The first step is to ensure you are registered. Have you already filled out voter registration forms?",
+                triggered_action="eligibility_confirmed"
+            )
+
         # 2. Registration Guide
         if re.search(r"(how (to|can i) register|not registered|unregistered|registration process|voter card)", query_lower):
             return ChatResponse(
