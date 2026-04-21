@@ -1,5 +1,8 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from src.routes import chat, locations, reminder
 
 app = FastAPI(
@@ -20,6 +23,15 @@ app.add_middleware(
 app.include_router(chat.router, tags=["Chat"])
 app.include_router(locations.router, tags=["Locations"])
 app.include_router(reminder.router, tags=["Reminders"])
+
+# Mount frontend
+frontend_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend")
+os.makedirs(frontend_dir, exist_ok=True)
+app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+
+@app.get("/")
+async def serve_frontend():
+    return FileResponse(os.path.join(frontend_dir, "index.html"))
 
 @app.get("/health")
 async def health_check():
