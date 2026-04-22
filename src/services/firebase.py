@@ -1,3 +1,6 @@
+"""
+Firebase service wrapper.
+"""
 import firebase_admin
 from firebase_admin import credentials, firestore
 from src.utils.config import settings
@@ -6,6 +9,9 @@ from datetime import datetime
 
 
 class FirebaseService:
+    """
+    Service for interacting with Firebase Firestore.
+    """
     def __init__(self):
         self.mock = settings.MOCK_FIREBASE
         self.db = None
@@ -40,6 +46,7 @@ class FirebaseService:
             )
 
     async def get_session_history(self, session_id: str) -> list:
+        """Retrieves session history from Firestore or mock store."""
         if self.mock:
             return self.mock_store.get(session_id, [])
         else:

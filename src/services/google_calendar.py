@@ -1,3 +1,6 @@
+"""
+Google Calendar service wrapper.
+"""
 import urllib.parse
 import logging
 import httpx

@@ -1,3 +1,6 @@
+"""
+Google Maps service wrapper.
+"""
 import urllib.parse
 import logging
 import httpx

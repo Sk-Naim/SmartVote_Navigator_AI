@@ -1,11 +1,14 @@
+"""
+Main application entry point for FastAPI.
+"""
 import os
 import logging
+from typing import Dict
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-from typing import Dict
 from src.routes import chat, locations, reminder
 
 # Configure Enterprise Logging

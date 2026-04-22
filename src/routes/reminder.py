@@ -1,3 +1,6 @@
+"""
+Reminder routing endpoints.
+"""
 from fastapi import APIRouter
 from src.models.schemas import ReminderRequest, ReminderResponse
 from src.services.google_calendar import calendar_service

@@ -1,3 +1,6 @@
+"""
+Location routing endpoints.
+"""
 from fastapi import APIRouter
 from src.models.schemas import LocationResponse
 from src.services.google_maps import maps_service

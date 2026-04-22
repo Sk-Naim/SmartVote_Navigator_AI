@@ -1,3 +1,6 @@
+"""
+Chat routing endpoints.
+"""
 from fastapi import APIRouter
 from src.models.schemas import ChatRequest, ChatResponse
 from src.logic.decision_engine import decision_engine

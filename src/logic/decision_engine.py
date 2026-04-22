@@ -1,3 +1,6 @@
+"""
+Core decision engine logic.
+"""
 import re
 import logging
 from src.models.schemas import ChatResponse
