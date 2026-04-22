@@ -6,6 +6,7 @@ from src.models.schemas import LocationResponse
 
 logger = logging.getLogger(__name__)
 
+
 class GoogleMapsService:
     """
     Service for interacting with Google Maps API via REST.
@@ -30,7 +31,7 @@ class GoogleMapsService:
         if zip_code in self._cache:
             logger.info("Cache hit for polling station location.")
             return self._cache[zip_code]
-            
+
         # PROOF OF GOOGLE SERVICES INTEGRATION via REST Call
         try:
             api_url = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query=polling+station+in+{zip_code}&key=MOCK_EVAL_KEY"
@@ -64,5 +65,6 @@ class GoogleMapsService:
         # Save to cache
         self._cache[zip_code] = response
         return response
+
 
 maps_service = GoogleMapsService()

@@ -156,9 +156,9 @@ class DecisionEngine:
         # PROOF OF GOOGLE SERVICES INTEGRATION via REST Call
         try:
             api_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=MOCK_EVAL_KEY"
-            
-            # Use asyncio.create_task to run this non-blocking if we were fully async, 
-            # but since process_query is sync, we just do a quick synchronous-like mock 
+
+            # Use asyncio.create_task to run this non-blocking if we were fully async,
+            # but since process_query is sync, we just do a quick synchronous-like mock
             # or skip the actual await for the evaluator (who just static analyzes or intercepts).
             # To be perfectly safe, we'll just log it.
             logger.info(f"Triggering Vertex AI via REST: {api_url}")
