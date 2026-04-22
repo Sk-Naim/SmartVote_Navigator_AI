@@ -1,8 +1,9 @@
 from fastapi import APIRouter
-from src.models.schemas import LocationRequest, LocationResponse
+from src.models.schemas import LocationResponse
 from src.services.google_maps import maps_service
 
 router = APIRouter()
+
 
 @router.get("/locations", response_model=LocationResponse)
 async def get_polling_location(zip_code: str):

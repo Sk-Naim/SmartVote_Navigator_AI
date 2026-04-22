@@ -9,13 +9,15 @@ from typing import Dict
 from src.routes import chat, locations, reminder
 
 # Configure Enterprise Logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="SmartVote Navigator AI Cloud API",
     description="A production-ready REST API for assisting users in the voting process.",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # Optmizing CORS for Cloud Run deployment environments.
@@ -39,11 +41,13 @@ frontend_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "fronten
 os.makedirs(frontend_dir, exist_ok=True)
 app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
 
+
 @app.get("/")
 async def serve_frontend() -> FileResponse:
     """Serves the main HTML interface."""
     logger.info("Serving frontend interface.")
     return FileResponse(os.path.join(frontend_dir, "index.html"))
+
 
 @app.get("/health")
 async def health_check() -> Dict[str, str]:

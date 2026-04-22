@@ -4,17 +4,20 @@ from src.utils.config import settings
 from typing import Dict, Any
 from datetime import datetime
 
+
 class FirebaseService:
     def __init__(self):
         self.mock = settings.MOCK_FIREBASE
         self.db = None
         self.mock_store = {}
-        
+
         if not self.mock:
             try:
                 if not firebase_admin._apps:
                     if settings.FIREBASE_CREDENTIALS_PATH:
-                        cred = credentials.Certificate(settings.FIREBASE_CREDENTIALS_PATH)
+                        cred = credentials.Certificate(
+                            settings.FIREBASE_CREDENTIALS_PATH
+                        )
                         firebase_admin.initialize_app(cred)
                     else:
                         # Use application default credentials
@@ -32,13 +35,22 @@ class FirebaseService:
                 self.mock_store[session_id] = []
             self.mock_store[session_id].append(data)
         else:
-             self.db.collection('sessions').document(session_id).collection('logs').add(data)
+            self.db.collection("sessions").document(session_id).collection("logs").add(
+                data
+            )
 
     async def get_session_history(self, session_id: str) -> list:
         if self.mock:
             return self.mock_store.get(session_id, [])
         else:
-            docs = self.db.collection('sessions').document(session_id).collection('logs').order_by('timestamp').stream()
+            docs = (
+                self.db.collection("sessions")
+                .document(session_id)
+                .collection("logs")
+                .order_by("timestamp")
+                .stream()
+            )
             return [doc.to_dict() for doc in docs]
+
 
 firebase_service = FirebaseService()

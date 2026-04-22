@@ -4,6 +4,7 @@ from src.services.google_calendar import calendar_service
 
 router = APIRouter()
 
+
 @router.post("/reminder", response_model=ReminderResponse)
 async def create_reminder(request: ReminderRequest):
     """
